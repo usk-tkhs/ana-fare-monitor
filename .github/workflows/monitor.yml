@@ -31,6 +31,14 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python monitor.py
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ana-debug
+          path: |
+            *.png
+            *.html
+
       - name: Commit state
         run: |
           git config user.name "github-actions"

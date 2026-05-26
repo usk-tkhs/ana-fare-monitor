@@ -1,13 +1,17 @@
-import os
-import requests
+from playwright.sync_api import sync_playwright
 
-webhook_url = os.environ["DISCORD_WEBHOOK_URL"]
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
 
-message = {
-    "content": "✅ ANA Fare Monitor テスト通知"
-}
+    page = browser.new_page()
 
-r = requests.post(webhook_url, json=message)
+    page.goto("https://www.ana.co.jp/")
 
-print(r.status_code)
-print(r.text)
+    page.screenshot(path="ana_top.png", full_page=True)
+
+    with open("ana_top.html", "w", encoding="utf-8") as f:
+        f.write(page.content())
+
+    browser.close()
+
+print("saved")
