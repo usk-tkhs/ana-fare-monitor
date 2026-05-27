@@ -1,4 +1,4 @@
-name: ANA Fare Monitor
+name: Google Flights Fare Monitor
 
 on:
   schedule:
@@ -13,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -31,20 +29,10 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python monitor.py
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ana-debug
-          path: |
-            *.png
-            *.html
-
       - name: Commit state
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
           git add state.json
-
-          git diff --cached --quiet || git commit -m "Update state"
+          git diff --cached --quiet || git commit -m "Update fare monitor state"
           git push
