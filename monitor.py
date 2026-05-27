@@ -8,8 +8,7 @@ URL = "https://www.google.com/travel/flights/booking?tfs=CBwQAhpMEgoyMDI2LTA3LTI
 
 with sync_playwright() as p:
     browser = p.chromium.launch(
-        headless=False,
-        slow_mo=300
+        headless=True
     )
 
     page = browser.new_page()
